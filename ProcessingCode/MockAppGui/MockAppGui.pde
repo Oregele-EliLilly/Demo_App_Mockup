@@ -1,36 +1,55 @@
 import controlP5.*;
 
-PImage capOn, capOff, toggleOn, toggleOff;
+PImage capOn, capOff, toggleOn, toggleOff, button, buttonover, buttonpush;
+PImage injSiteFront, injSiteBack;
 ControlP5 cp5;
-boolean toggleValue;
+boolean toggleValue = false;
 
 void setup() {
-  size(600, 600);
+  //Settingup the Canvas
+  size(600, 500);
   background(216,26,32);
+  
+  //Loading Images
   capOn = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/BoltCapOn.jpg");
   capOff = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/BoltCapOff.jpg");
   toggleOn = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ToggleOn.jpg");
   toggleOff = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ToggleOff.jpg");
   button = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/Button.jpg");
+  buttonover = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ButtonOver.jpg");
+  buttonpush = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ButtonPush.jpg");
+  injSiteFront = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/InjSitesFront.jpg");
+  injSiteBack = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/InjSitesBack.jpg");
   
   
   cp5 = new ControlP5(this);
   
-  cp5.addToggle("")
-  .setPosition(width*0.15, height * 0.2)
+  //Toggle that indicates Cap Status
+  cp5.addToggle("CapToggle")
+  .setPosition(width*0.15, height * 0.18)
   //.setSize(200,100)
-  .setImages(toggleOn, toggleOff);
-  textAlign(CENTER,CENTER);
-  textSize(300);
-  ;
+  .setImages(toggleOn, toggleOff)
+  .setState(toggleValue);
   
-  cp5.addButton("Perform Injection").setPosition(width*0.15, height * 0.6).setSize(200,100);
-  
+  //Injection Button
+  cp5.addButton("Perform Injection")
+  .setPosition(width*0.15, height * 0.57)
+  .setSize(200,100)
+  .setImages(button, buttonover, buttonpush)
+  .setVisible(true);
 }
 
 void draw() {
-  //tint(255,0,0,10);
-  image(capOn, width * 0.65, height*0.05, width*0.2, height*0.85);
-  //tint(255,0,0, 10);
+  //Outer Rectangle
+  noFill();
+  stroke(255,255,255);
+  strokeWeight(4);
+  rect(10, 10, (width -20), (height - 20),7);
   
+  //Standard image of Bolt with the cap
+  image(capOn, width * 0.65, height*0.05, width*0.2, height*0.85);
+  
+  if (mousePressed) //If mouse is pushed the Capless Bolt appears
+    image(capOff, width * 0.65, height*0.05, width*0.2, height*0.85);
+    toggleValue = !toggleValue;
 };
