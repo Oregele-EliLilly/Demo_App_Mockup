@@ -1,3 +1,11 @@
+import ddf.minim.*;
+import ddf.minim.analysis.*;
+
+Minim minim;
+AudioInput in;
+FFT fft;
+float amplitude;
+
 PImage capOn, capOff, toggleOn, toggleOff, button, buttonover, buttonpush;
 PImage injSiteFront, injSiteBack;
 boolean toggleValue = false;
@@ -19,13 +27,16 @@ void setup() {
   //Loading Images
   capOn = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/BoltCapOn.jpg");
   capOff = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/BoltCapOff.jpg");
-  toggleOn = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ToggleOn.jpg");
-  toggleOff = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ToggleOff.jpg");
-  button = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/Button.jpg");
-  buttonover = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ButtonOver.jpg");
-  buttonpush = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/ButtonPush.jpg");
   injSiteFront = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/InjSitesFront.jpg");
   injSiteBack = loadImage("C:/Users/c223856/Desktop/Projects/Demo_App_Mockup/Images/InjSitesBack.jpg");
+  
+  //Taking care fo the Minim stuff
+  minim = new Minim(this);
+  //minim.debugOn();
+  
+  //in = minim.getLineIn(Minim.STEREO, 1024, 44100);
+  in = minim.getLineIn();
+  fft = new FFT(in.left.size(), 44100);
   
 }
 
@@ -42,7 +53,7 @@ void draw() {
 
   //Here's where the audio code would be that would determine whether the 16000 Hz tone was playing
   //That would set the state of 
-  
+  amplitude = fft.getFreq(4000);  
   
   //Cap, No Cap Button
   noFill();
@@ -50,6 +61,8 @@ void draw() {
   strokeWeight(4);
   rect(width*0.15, height * 0.18, 200, 100, 7);
   
+  
+  text(amplitude, 50, 50);
   if (CapStatus) {
     //Changing the Label to ON
     fill(216,26,32);
